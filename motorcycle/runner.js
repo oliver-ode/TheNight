@@ -24,6 +24,10 @@ function fauna(){
     ctx.stroke();
     ctx.closePath();
 }
+function buildings(){
+    ctx.drawImage(LEFTBUILDINGS, 0, 0);
+    ctx.drawImage(RIGHTBUILDINGS, 600, 0);
+}
 function updateR(y) {
     ctx.beginPath();
     ctx.fillStyle = "#0095DD";
@@ -42,6 +46,7 @@ function updateL(y) {
 
 function draw() {
     ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
+    buildings();
     Houses.push([0,1])
     for (let i = 0; i < Houses.length; i++){
         Houses[i][0] += (Houses[i][0]/20)+i;
