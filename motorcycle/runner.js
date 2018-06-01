@@ -3,10 +3,12 @@ let x = 0
 let it = 1;
 let curr_count = 0;
 let COUNTDOWN = 30;
+let playerx = 1;
 function fauna(){
     ctx.beginPath();
 
     // Boring Side walk
+    ctx.strokeStyle = "#000000";
     ctx.moveTo(650, 0);
     ctx.lineTo(150, 800);
     ctx.moveTo(630, 0);
@@ -15,8 +17,16 @@ function fauna(){
     ctx.lineTo(1250, 800);
     ctx.moveTo(770, 0);
     ctx.lineTo(1400, 800);
+    // Lane lines BOIII (replace with png *cough* *cough* olie)
+    ctx.moveTo(683, 0);
+    ctx.lineTo(517, 800);
+    ctx.moveTo(716,0)
+    ctx.lineTo(883, 800);
     ctx.stroke();
-    ctx.closePath();
+
+    
+    // Points 650, 683, 716, 750
+    // Points 150, 517, 883, 1250
 }
 function buildings(){
     ctx.drawImage(LEFTBUILDINGS, 0, 0);
@@ -38,6 +48,22 @@ function updateL(y) {
     ctx.fill();
 }
 
+function Player(){
+    if (playerx == 0){
+        ctx.beginPath();
+        ctx.rect(350-184/2, 800-184/2, 184, 184);
+        ctx.fill();
+    }else if (playerx == 1){
+        ctx.beginPath();
+        ctx.rect(701-184/2, 800-184/2, 184, 184);
+        ctx.fill();
+    }else{
+        ctx.beginPath();
+        ctx.rect(1051-184/2, 800-184/2, 184, 184);
+        ctx.fill();
+    }
+
+}
 function add_people(){
     if (curr_count == 0) {
         if (Math.random()*100 > 95){
@@ -65,8 +91,18 @@ function draw() {
             i--;
         }
     }
+    Player();
     fauna();
-    console.log(Houses.length)
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        if (evt.keyCode == 37) {
+            if (playerx != 0) playerx--;
+        }
+        if (evt.keyCode == 39){
+            if (playerx != 2) playerx++;
+        }
+    };
+    ctx.closePath();
     requestAnimationFrame(draw);
 }
 draw();
