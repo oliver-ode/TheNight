@@ -1,4 +1,5 @@
-let Houses = [[75,1],[125,0],[200,1],[275,0],[400,1],[525,0],[650,1],[800,0]]
+let Houses = [[]]
+let Car = [[]]
 let x = 0
 let it = 1;
 let curr_count = 0;
@@ -6,9 +7,8 @@ let COUNTDOWN = 30;
 let playerx = 1;
 function fauna(){
     ctx.beginPath();
-
+    ctx.fillStyle = "#0095DD";
     // Boring Side walk
-    ctx.strokeStyle = "#000000";
     ctx.moveTo(650, 0);
     ctx.lineTo(150, 800);
     ctx.moveTo(630, 0);
@@ -48,6 +48,22 @@ function updateL(y) {
     ctx.fill();
 }
 
+function updatecar(car){
+    if (car[0] == 0){
+        x = (car[1]-1602.4)*(-333)/800;
+        ctx.rect(x-car[1]/12,car[1],car[1]/6,car[1]/6)
+        ctx.fill();
+    } else if (car[0] == 1){
+        x = 700;
+        ctx.rect(x-car[1]/8,car[1],car[1]/4,car[1]/4)
+        ctx.fill();
+    } else{
+        x = (car[1] + 1755) * 334/800;
+        ctx.rect(x-car[1]/12,car[1],car[1]/6,car[1]/6)
+        ctx.fill();
+    }
+}
+
 function Player(){
     if (playerx == 0){
         ctx.beginPath();
@@ -67,7 +83,8 @@ function Player(){
 function add_people(){
     if (curr_count == 0) {
         if (Math.random()*100 > 95){
-            Houses.push([0, Math.round(Math.random() * 2)])
+            Houses.push([0, Math.round(Math.random() * 2)]);
+            Car.push([Math.round(Math.random()*3), 1]);
             curr_count = COUNTDOWN;
         }
     }else{
@@ -91,8 +108,18 @@ function draw() {
             i--;
         }
     }
+
     Player();
     fauna();
+    for (let i = 0; i < Car.length; i++){
+        Car[i][1] += (Car[i][1]/20)+i;
+        updatecar(Car[i]);
+
+        if (Car[i][1] >= 800){
+            Car.splice(Car[i],1);
+            i--;
+        }
+    }
     document.onkeydown = function(evt) {
         evt = evt || window.event;
         if (evt.keyCode == 37) {
