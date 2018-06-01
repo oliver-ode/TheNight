@@ -1,14 +1,8 @@
 let Houses = [[75,1],[125,0],[200,1],[275,0],[400,1],[525,0],[650,1],[800,0]]
 let x = 0
-let cooldown = 0;
 let it = 1;
-function remove(array, element) {
-    const index = array.indexOf(element);
-
-    if (index !== -1) {
-        array.splice(index, 1);
-    }
-}
+let curr_count = 0;
+let COUNTDOWN = 30;
 function fauna(){
     ctx.beginPath();
 
@@ -44,10 +38,21 @@ function updateL(y) {
     ctx.fill();
 }
 
+function add_people(){
+    if (curr_count == 0) {
+        if (Math.random()*100 > 95){
+            Houses.push([0, Math.round(Math.random() * 2)])
+            curr_count = COUNTDOWN;
+        }
+    }else{
+        curr_count--;
+    }
+}
+
 function draw() {
     ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
     buildings();
-    Houses.push([0,1])
+    add_people();
     for (let i = 0; i < Houses.length; i++){
         Houses[i][0] += (Houses[i][0]/20)+i;
         if (Houses[i][1] == 0){
@@ -56,7 +61,8 @@ function draw() {
             updateL(Houses[i][0]);
         }
         if (Houses[i][0] >= 800){
-            remove(Houses,i);
+            Houses.splice(Houses[i],1);
+            i--;
         }
     }
     fauna();
