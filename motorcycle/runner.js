@@ -32,21 +32,6 @@ function buildings(){
     ctx.drawImage(LEFTBUILDINGS, 0, 0);
     ctx.drawImage(RIGHTBUILDINGS, 600, 0);
 }
-function updateR(y) {
-    ctx.beginPath();
-    ctx.fillStyle = "#0095DD";
-    x = ((y-906.195)*565)/-800
-    ctx.rect(x-y/11, y, y/9, y/9);
-
-
-    ctx.fill();
-}
-function updateL(y) {
-    ctx.beginPath();
-    x = ((y+1076.106)*565)/800
-    ctx.rect(x-y/110, y, y/9, y/9);
-    ctx.fill();
-}
 
 function updatecar(car){
     if (car[0] == 0){
@@ -60,6 +45,21 @@ function updatecar(car){
     } else{
         x = (car[1] + 1755) * 334/800;
         ctx.rect(x-car[1]/12,car[1],car[1]/6,car[1]/6)
+        ctx.fill();
+    }
+}
+
+function updatepeople(person){
+    y = person[0];
+    if (person[1] == 0){
+        ctx.beginPath();
+        x = ((y-906.195)*565)/-800
+        ctx.rect(x-y/11, y, y/9, y/9);
+        ctx.fill();
+    }else{
+        ctx.beginPath();
+        x = ((y+1076.106)*565)/800
+        ctx.rect(x-y/110, y, y/9, y/9);
         ctx.fill();
     }
 }
@@ -98,11 +98,7 @@ function draw() {
     add_people();
     for (let i = 0; i < Houses.length; i++){
         Houses[i][0] += (Houses[i][0]/20)+i;
-        if (Houses[i][1] == 0){
-            updateR(Houses[i][0]);
-        }else{
-            updateL(Houses[i][0]);
-        }
+        updatepeople(Houses[i]);
         if (Houses[i][0] >= 800){
             Houses.splice(Houses[i],1);
             i--;
