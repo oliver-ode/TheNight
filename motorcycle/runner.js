@@ -5,6 +5,7 @@ let it = 1;
 let curr_count = 0;
 let COUNTDOWN = 30;
 let playerx = 1;
+
 function fauna(){
     ctx.beginPath();
     ctx.fillStyle = "#0095DD";
