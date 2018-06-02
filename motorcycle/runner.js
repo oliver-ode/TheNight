@@ -1,11 +1,11 @@
-let Houses = [[]]
+let People = [[]]
 let Car = [[]]
 let x = 0
 let it = 1;
 let curr_count = 0;
 let COUNTDOWN = 30;
 let playerx = 1;
-<<<<<<< HEAD
+let score = 0;
 var start = true;
 var CAR = document.createElement("img");
 CAR.src = "images/car.png";
@@ -17,6 +17,7 @@ BACKGROUND.src = "images/background.jpg";
 function easySettings(){
     document.getElementById("ezybtn").disabled = true;
     document.getElementById("hrdbtn").disabled = true;
+    COUNTDOWN = 30;
     start = false;
     //Put the stuff for an easy mode
     //I don't know what the vars exactly do
@@ -26,14 +27,13 @@ function easySettings(){
 function hardSettings(){
     document.getElementById("hrdbtn").disabled = true;
     document.getElementById("ezybtn").disabled = true;
+    COUNTDOWN = 15;
     start = false;
     //Put the stuff for an hard mode
     //I don't know what the vars exactly do
     //so if you could just make an hard mode
     //that would be great Robbie
 }
-=======
->>>>>>> d13d958158c0a82afd249f7969a5adfdccac1873
 
 function fauna(){
     ctx.beginPath();
@@ -60,55 +60,49 @@ function buildings(){
     ctx.drawImage(LEFTBUILDINGS, 0, 0);
     ctx.drawImage(RIGHTBUILDINGS, 600, 0);
 }
-<<<<<<< HEAD
-function updateR(y) {
-    ctx.beginPath();
-    ctx.fillStyle = "#0095DD";
-    x = ((y-906.195)*565)/-800
-    ctx.drawImage(PEDESTRIAN, x-y/11, y, y/9, y/9);
-}
-function updateL(y) {
-    ctx.beginPath();
-    x = ((y+1076.106)*565)/800
-    ctx.drawImage(PEDESTRIAN, x-y/110, y, y/9, y/9);
-}
-function updateCar(car){
-=======
 
-function updatecar(car){
->>>>>>> d13d958158c0a82afd249f7969a5adfdccac1873
-    if (car[0] == 0){
-        x = (car[1]-1602.4)*(-333)/800;
-        ctx.drawImage(CAR, x-car[1]/12,car[1],car[1]/6,car[1]/6)
-    } else if (car[0] == 1){
-        x = 700;
-        ctx.drawImage(CAR, x-car[1]/8,car[1],car[1]/4,car[1]/4)
-    } else{
-        x = (car[1] + 1755) * 334/800;
-        ctx.drawImage(CAR, x-car[1]/12,car[1],car[1]/6,car[1]/6)
-    }
+function restart(){
+    People = [[]];
+    Car = [[]];
+    score = 0;
 }
-<<<<<<< HEAD
-function player(){
-=======
-
-function updatepeople(person){
+function updatePeople(person) {
     y = person[0];
     if (person[1] == 0){
         ctx.beginPath();
         x = ((y-906.195)*565)/-800
-        ctx.rect(x-y/11, y, y/9, y/9);
-        ctx.fill();
+        ctx.drawImage(PEDESTRIAN, x-y/11, y, y/9, y/9);
     }else{
         ctx.beginPath();
         x = ((y+1076.106)*565)/800
-        ctx.rect(x-y/110, y, y/9, y/9);
-        ctx.fill();
+        ctx.drawImage(PEDESTRIAN, x-y/110, y, y/9, y/9);
     }
 }
+function updateCar(car){
+    if (car[0] <= 1){
+        if (car[1]/1.1 > 600 && playerx == 0){
+            restart();
 
-function Player(){
->>>>>>> d13d958158c0a82afd249f7969a5adfdccac1873
+        }
+        x = (car[1]-1602.4)*(-333)/800;
+        ctx.drawImage(CAR, x-car[1]/1.3,car[1]/1.1,car[1],car[1])
+    } else if (car[0] <= 2){
+        if (car[1] > 650 && playerx == 1){
+            restart();
+
+        }
+        x = 700;
+        ctx.drawImage(CAR, x-car[1]/2,car[1],car[1],car[1])
+    } else{
+        if (car[1] > 600 && playerx == 2){
+            restart();
+
+        }
+        x = (car[1] + 1755) * 334/800;
+        ctx.drawImage(CAR, x-car[1]/4,car[1]/1.1,car[1],car[1])
+    }
+}
+function player(){
     if (playerx == 0){
         ctx.beginPath();
         ctx.rect(350-184/2, 800-184/2, 184, 184);
@@ -123,63 +117,62 @@ function Player(){
         ctx.fill();
     }
 }
+function incrimentScore(){
+    score++;
+    ctx.fillStyle = "#33FFF0";
+    ctx.font="50px Arial";
+    ctx.fillText("Score: " + score/10, 50, 70)
+}
 function addPeople(){
     if (curr_count == 0) {
-        if (Math.random()*100 > 95){
-            Houses.push([0, Math.round(Math.random() * 2)]);
-            Car.push([Math.round(Math.random()*3), 1]);
+        if (Math.random()*100 > 50){
+            Car.push([Math.random()*3, 1]);
             curr_count = COUNTDOWN;
         }
     }else{
+        if (Math.random()*100 > 95) {
+            People.push([0, Math.round(Math.random() * 2)]);
+            curr_count = COUNTDOWN;
+        }
         curr_count--;
     }
 }
 function startScreen(){
+    ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
     ctx.drawImage(BACKGROUND, 0, 0, 1400, 800)
-    let line1 = "Welcome to The Night";
+    let line1 = "The Night";
     let line2 = "A 2.5D Runner Game";
-    ctx.fillStyle = "#FFFFFF"
+    ctx.fillStyle = "#FF5733";
     ctx.font="100px Arial";
-    ctx.fillText(line1, 200, 300)
+    ctx.fillText(line1, 500, 300)
     ctx.font="65px Arial";
-    ctx.fillText(line2, 370, 400)
+    ctx.fillText(line2, 370, 500)
 }
 
 function draw() {
     ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
-<<<<<<< HEAD
     if(start == false){
         buildings();
         addPeople();
-        for (let i = 0; i < Houses.length; i++){
-            Houses[i][0] += (Houses[i][0]/20)+i;
-            if (Houses[i][1] == 0){
-                updateR(Houses[i][0]);
-            }else{
-                updateL(Houses[i][0]);
-            }
-            if (Houses[i][0] >= 800){
-                Houses.splice(Houses[i],1);
+        for (let i = 0; i < People.length; i++){
+            People[i][0] += (People[i][0]/20)+5;
+            updatePeople(People[i]);
+            if (People[i][0] >= 800){
+                People.splice(People[i],1);
                 i--;
             }
-=======
-    buildings();
-    add_people();
-    for (let i = 0; i < Houses.length; i++){
-        Houses[i][0] += (Houses[i][0]/20)+i;
-        updatepeople(Houses[i]);
-        if (Houses[i][0] >= 800){
-            Houses.splice(Houses[i],1);
-            i--;
->>>>>>> d13d958158c0a82afd249f7969a5adfdccac1873
         }
 
         player();
         fauna();
         for (let i = 0; i < Car.length; i++){
-            Car[i][1] += (Car[i][1]/20)+i;
+            Car[i][1] += (Car[i][1]/30)+2;
             updateCar(Car[i]);
+            console.log(Car.length);
 
+            if (i >= Car.length){
+                break;
+            }
             if (Car[i][1] >= 800){
                 Car.splice(Car[i],1);
                 i--;
@@ -194,6 +187,7 @@ function draw() {
                 if (playerx != 2) playerx++;
             }
         };
+        incrimentScore();
         ctx.closePath();
         requestAnimationFrame(draw);
     }
