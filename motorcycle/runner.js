@@ -6,19 +6,24 @@ let curr_count = 0;
 let COUNTDOWN = 30;
 let playerx = 1;
 let score = 0;
-var start = true;
+var start = 0;
 var CAR = document.createElement("img");
 CAR.src = "images/car.png";
 var PEDESTRIAN = document.createElement("img");
 PEDESTRIAN.src = "images/pedestrian.png";
 var BACKGROUND = document.createElement("img");
 BACKGROUND.src = "images/background.jpg";
+var MOTORCYCLE = document.createElement("img");
+MOTORCYCLE.src = "images/motorcycle.png";
+var playerOffset = 300;
+var OTHERBACKGROUND = document.createElement("img");
+OTHERBACKGROUND.src = "images/roadTest.png"
 
 function easySettings(){
     document.getElementById("ezybtn").disabled = true;
     document.getElementById("hrdbtn").disabled = true;
     COUNTDOWN = 30;
-    start = false;
+    start = 1;
     //Put the stuff for an easy mode
     //I don't know what the vars exactly do
     //so if you could just make an easy mode
@@ -28,7 +33,7 @@ function hardSettings(){
     document.getElementById("hrdbtn").disabled = true;
     document.getElementById("ezybtn").disabled = true;
     COUNTDOWN = 15;
-    start = false;
+    start = 1;
     //Put the stuff for an hard mode
     //I don't know what the vars exactly do
     //so if you could just make an hard mode
@@ -61,10 +66,18 @@ function buildings(){
     ctx.drawImage(RIGHTBUILDINGS, 600, 0);
 }
 
-function restart(){
+function gameEnd(){
+    start = 2;
+}
+function fullReset(){
     People = [[]];
     Car = [[]];
     score = 0;
+    start = 0;
+    playerx = 1;
+    document.getElementById("hrdbtn").disabled = false;
+    document.getElementById("ezybtn").disabled = false;
+    requestAnimationFrame(draw);
 }
 function updatePeople(person) {
     y = person[0];
@@ -81,21 +94,21 @@ function updatePeople(person) {
 function updateCar(car){
     if (car[0] <= 1){
         if (car[1]/1.1 > 600 && playerx == 0){
-            restart();
+            gameEnd();
 
         }
         x = (car[1]-1602.4)*(-333)/800;
         ctx.drawImage(CAR, x-car[1]/1.3,car[1]/1.1,car[1],car[1])
     } else if (car[0] <= 2){
         if (car[1] > 650 && playerx == 1){
-            restart();
+            gameEnd();
 
         }
         x = 700;
         ctx.drawImage(CAR, x-car[1]/2,car[1],car[1],car[1])
     } else{
         if (car[1] > 600 && playerx == 2){
-            restart();
+            gameEnd();
 
         }
         x = (car[1] + 1755) * 334/800;
@@ -104,17 +117,11 @@ function updateCar(car){
 }
 function player(){
     if (playerx == 0){
-        ctx.beginPath();
-        ctx.rect(350-184/2, 800-184/2, 184, 184);
-        ctx.fill();
+        ctx.drawImage(MOTORCYCLE, 350-playerOffset/2, 800-playerOffset/2, playerOffset, playerOffset)
     }else if (playerx == 1){
-        ctx.beginPath();
-        ctx.rect(701-184/2, 800-184/2, 184, 184);
-        ctx.fill();
+        ctx.drawImage(MOTORCYCLE, 701-playerOffset/2, 800-playerOffset/2, playerOffset, playerOffset);
     }else{
-        ctx.beginPath();
-        ctx.rect(1051-184/2, 800-184/2, 184, 184);
-        ctx.fill();
+        ctx.drawImage(MOTORCYCLE, 1051-playerOffset/2, 800-playerOffset/2, playerOffset, playerOffset);
     }
 }
 function incrimentScore(){
@@ -138,7 +145,6 @@ function addPeople(){
     }
 }
 function startScreen(){
-    ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
     ctx.drawImage(BACKGROUND, 0, 0, 1400, 800)
     let line1 = "The Night";
     let line2 = "A 2.5D Runner Game";
@@ -148,10 +154,18 @@ function startScreen(){
     ctx.font="65px Arial";
     ctx.fillText(line2, 370, 500)
 }
-
+function youDead(){
+    ctx.fillStyle = "#FF5733"
+    ctx.font="100px Arial";
+    ctx.fillText("You lose!", 500, 300)
+    ctx.font="75px Arial";
+    ctx.fillText("Your score was: " + score, 375, 375)
+    setTimeout(fullReset, 5000)
+}
 function draw() {
     ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
-    if(start == false){
+    if(start == 1){
+        ctx.drawImage(OTHERBACKGROUND, 0, 0)
         buildings();
         addPeople();
         for (let i = 0; i < People.length; i++){
@@ -168,7 +182,6 @@ function draw() {
         for (let i = 0; i < Car.length; i++){
             Car[i][1] += (Car[i][1]/30)+2;
             updateCar(Car[i]);
-            console.log(Car.length);
 
             if (i >= Car.length){
                 break;
@@ -191,9 +204,12 @@ function draw() {
         ctx.closePath();
         requestAnimationFrame(draw);
     }
-    else{
+    else if(start == 0){
         startScreen();
         requestAnimationFrame(draw);
+    }
+    else if(start == 2){
+        youDead();
     }
 }
 draw();
