@@ -6,7 +6,13 @@ let curr_count = 0;
 let COUNTDOWN = 30;
 let playerx = 1;
 let score = 0;
-var start = 0;
+let start = 0;
+let lives = 3;
+let invcible = 0;
+var FULL = document.createElement("img");
+FULL.src = "images/full.png";
+var EMPTY = document.createElement("img");
+EMPTY.src = "images/empty.png";
 var CAR = document.createElement("img");
 CAR.src = "images/car.png";
 var PEDESTRIAN = document.createElement("img");
@@ -94,21 +100,30 @@ function updatePeople(person) {
 function updateCar(car){
     if (car[0] <= 1){
         if (car[1]/1.1 > 600 && playerx == 0){
-            gameEnd();
+            if (invcible == 0){
+                lives--;
+                invcible = 10;
+            }
 
         }
         x = (car[1]-1602.4)*(-333)/800;
         ctx.drawImage(CAR, x-car[1]/1.3,car[1]/1.1,car[1],car[1])
     } else if (car[0] <= 2){
         if (car[1] > 650 && playerx == 1){
-            gameEnd();
+            if (invcible == 0){
+                lives--;
+                invcible = 10;
+            }
 
         }
         x = 700;
         ctx.drawImage(CAR, x-car[1]/2,car[1],car[1],car[1])
     } else{
         if (car[1] > 600 && playerx == 2){
-            gameEnd();
+            if (invcible == 0){
+                lives--;
+                invcible = 10;
+            }
 
         }
         x = (car[1] + 1755) * 334/800;
@@ -153,6 +168,15 @@ function startScreen(){
     ctx.fillText(line1, 500, 300)
     ctx.font="65px Arial";
     ctx.fillText(line2, 370, 500)
+}
+function drawlives(){
+    for (let i = 1; i <= 3; i++){
+        if (lives < i){
+            ctx.drawImage(EMPTY, 750 + i*150,0,150,150);
+        }else{
+            ctx.drawImage(FULL, 750 + i*150,0,150,150);
+        }
+    }
 }
 function youDead(){
     ctx.fillStyle = "#FF5733"
@@ -201,8 +225,15 @@ function draw() {
             }
         };
         incrimentScore();
+        drawlives()
         ctx.closePath();
         requestAnimationFrame(draw);
+        if (lives == 0){
+            gameEnd();
+        }
+        if (invcible > 0){
+            invcible--;
+        }
     }
     else if(start == 0){
         startScreen();
