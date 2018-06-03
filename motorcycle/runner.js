@@ -25,25 +25,17 @@ var playerOffset = 300;
 var OTHERBACKGROUND = document.createElement("img");
 OTHERBACKGROUND.src = "images/roadTest.png"
 
-function easySettings(){
+function easySettings() {
     document.getElementById("ezybtn").disabled = true;
     document.getElementById("hrdbtn").disabled = true;
     COUNTDOWN = 30;
     start = 1;
-    //Put the stuff for an easy mode
-    //I don't know what the vars exactly do
-    //so if you could just make an easy mode
-    //that would be great Robbie
 }
 function hardSettings(){
     document.getElementById("hrdbtn").disabled = true;
     document.getElementById("ezybtn").disabled = true;
     COUNTDOWN = 15;
     start = 1;
-    //Put the stuff for an hard mode
-    //I don't know what the vars exactly do
-    //so if you could just make an hard mode
-    //that would be great Robbie
 }
 
 function fauna(){
@@ -58,14 +50,11 @@ function fauna(){
     ctx.lineTo(1250, 800);
     ctx.moveTo(770, 0);
     ctx.lineTo(1400, 800);
-    // Lane lines BOIII (replace with png *cough* *cough* olie)
     ctx.moveTo(683, 0);
     ctx.lineTo(517, 800);
     ctx.moveTo(716,0)
     ctx.lineTo(883, 800);
     ctx.stroke();
-    // Points 650, 683, 716, 750
-    // Points 150, 517, 883, 1250
 }
 function buildings(){
     ctx.drawImage(LEFTBUILDINGS, 0, 0);
@@ -81,6 +70,7 @@ function fullReset(){
     score = 0;
     start = 0;
     playerx = 1;
+    lives = 3;
     document.getElementById("hrdbtn").disabled = false;
     document.getElementById("ezybtn").disabled = false;
     requestAnimationFrame(draw);
