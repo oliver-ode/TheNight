@@ -1,14 +1,11 @@
+/**
+-------- Variables --------
+*/
+//ARRAY LISTS
 let People = [[]]
 let Car = [[]]
-let x = 0
-let it = 1;
-let curr_count = 0;
-let COUNTDOWN = 30;
-let playerx = 1;
-let score = 0;
-let start = 0;
-let lives = 3;
-let invcible = 0;
+
+//IMAGES
 var FULL = document.createElement("img");
 FULL.src = "images/full.png";
 var EMPTY = document.createElement("img");
@@ -21,21 +18,39 @@ var BACKGROUND = document.createElement("img");
 BACKGROUND.src = "images/background.jpg";
 var MOTORCYCLE = document.createElement("img");
 MOTORCYCLE.src = "images/motorcycle.png";
-var playerOffset = 300;
 var OTHERBACKGROUND = document.createElement("img");
 OTHERBACKGROUND.src = "images/roadTest.png"
 
+//COUNTERS AND INTS
+let x = 0
+let it = 1;
+let curr_count = 0;
+let COUNTDOWN = 30;
+let playerx = 1;
+let score = 0;
+let start = 0;
+let lives = 3;
+let invcible = 0;
+var playerOffset = 300;
+
+// BUTTON FUNCTIONS
+/**
+A function the "easy" button will run when touched, sets the Cooldown or enemy spawn rate to 30 (ticks)
+*/
 function easySettings() {
-    document.getElementById("ezybtn").disabled = true;
-    document.getElementById("hrdbtn").disabled = true;
-    COUNTDOWN = 30;
-    start = 1;
+    document.getElementById("ezybtn").disabled = true; // Turns off easy button
+    document.getElementById("hrdbtn").disabled = true; // Turns off hard button
+    COUNTDOWN = 30; // Sets the spawnrate to 30
+    start = 1; // Sets our game state to 1 (meaning the game will turn on and run)
 }
+/**
+A function the "hard" button will run when touched, sets the Cooldown or enemy spawn rate to 15 (ticks)
+*/
 function hardSettings(){
-    document.getElementById("hrdbtn").disabled = true;
-    document.getElementById("ezybtn").disabled = true;
-    COUNTDOWN = 15;
-    start = 1;
+    document.getElementById("hrdbtn").disabled = true; // Turns off easy button
+    document.getElementById("ezybtn").disabled = true; // Turns off hard button
+    COUNTDOWN = 15; // Sets the spawnrate to 15
+    start = 1; // Sets our game state to 1 (meaning the game will turn on and run)
 }
 
 function fauna(){
